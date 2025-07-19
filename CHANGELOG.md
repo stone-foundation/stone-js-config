@@ -5,6 +5,13 @@ All notable changes to the "Stone.js Config" extension will be documented in thi
 ## Unreleased
 
 
+## [0.2.0](https://github.com/stone-foundation/stone-js-config/compare/v0.1.1...v0.2.0) (2025-07-19)
+
+
+### Features
+
+* add two new utility methods (isNot and hasNot) to the Config API and fix various project maintenance issues ([#47](https://github.com/stone-foundation/stone-js-config/issues/47)) ([0ece0e8](https://github.com/stone-foundation/stone-js-config/commit/0ece0e87d5453ca291df73fb2524122b2b0430b0))
+
 ## [0.1.1](https://github.com/stone-foundation/stone-js-config/compare/v0.1.0...v0.1.1) (2025-06-12)
 
 
