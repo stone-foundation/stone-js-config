@@ -37,7 +37,7 @@ npm i @stone-js/config
 yarn add @stone-js/config
 # or
 pnpm add @stone-js/config
-````
+```
 
 > \[!IMPORTANT]
 > This package is **pure ESM**. Ensure your `package.json` includes `"type": "module"` or configure your bundler appropriately.
@@ -179,7 +179,7 @@ console.log(config.toJson()) // '{"count":1,"nested":{"flag":false,"added":42},"
 
 This package is part of the Stone.js ecosystem, a modern JavaScript framework built around the Continuum Architecture.
 
-Explore the full documentation: https://stonejs.dev
+Explore the full documentation: [https://stonejs.dev](https://stonejs.dev)
 
 ## API documentation
 

@@ -131,6 +131,16 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
   }
 
   /**
+   * Determine if the given configuration value does not exist.
+   *
+   * @param key - The key or keys to check.
+   * @returns True if the key does not exist, false otherwise.
+   */
+  public hasNot (key: PropertyKey | PropertyKey[]): boolean {
+    return !this.has(key)
+  }
+
+  /**
    * Check if the given configuration value is equal to the specified value.
    *
    * @param key - The key to check.
@@ -139,6 +149,17 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
    */
   public is (key: PropertyKey, value: unknown): boolean {
     return this.get(key) === value
+  }
+
+  /**
+   * Check if the given configuration value is not equal to the specified value.
+   *
+   * @param key - The key to check.
+   * @param value - The value to compare against.
+   * @returns True if the key's value is not equal to the specified value, false otherwise.
+   */
+  public isNot (key: PropertyKey, value: unknown): boolean {
+    return !this.is(key, value)
   }
 
   /**

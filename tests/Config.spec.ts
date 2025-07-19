@@ -42,6 +42,11 @@ describe('Config', () => {
     expect(config.has('nonExistent')).toBe(false)
   })
 
+  it('should determine if a configuration value does not exist', () => {
+    expect(config.hasNot('nonExistent')).toBe(true)
+    expect(config.hasNot('setting1')).toBe(false)
+  })
+
   it('should set a new configuration value', () => {
     config.set('setting3', 'value3')
     expect(config.get('setting3')).toBe('value3')
@@ -90,6 +95,11 @@ describe('Config', () => {
   it('should return true if the value matches using is()', () => {
     expect(config.is('setting1', 'value1')).toBe(true)
     expect(config.is('setting1', 'wrongValue')).toBe(false)
+  })
+
+  it('should return false if the value does not match using isNot()', () => {
+    expect(config.isNot('setting1', 'value1')).toBe(false)
+    expect(config.isNot('setting1', 'wrongValue')).toBe(true)
   })
 
   it('should not overwrite existing key with setIf', () => {

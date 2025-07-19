@@ -152,14 +152,6 @@ An array of keys to check.
 
 The first matching configuration value.
 
-##### Param
-
-An array of keys to check.
-
-##### Param
-
-The fallback value if no key matches.
-
 #### Call Signature
 
 ```ts
@@ -193,14 +185,6 @@ The fallback value if no key matches.
 `TReturn`
 
 The first matching configuration value.
-
-##### Param
-
-An array of keys to check.
-
-##### Param
-
-The fallback value if no key matches.
 
 ***
 
@@ -244,14 +228,6 @@ The key or keys to retrieve from the configuration.
 
 The configuration value.
 
-##### Param
-
-The key or keys to retrieve from the configuration.
-
-##### Param
-
-The fallback value if the key does not exist.
-
 #### Call Signature
 
 ```ts
@@ -285,14 +261,6 @@ The fallback value if the key does not exist.
 `TReturn`
 
 The configuration value.
-
-##### Param
-
-The key or keys to retrieve from the configuration.
-
-##### Param
-
-The fallback value if the key does not exist.
 
 ***
 
@@ -350,6 +318,30 @@ True if the key exists, false otherwise.
 
 ***
 
+### hasNot()
+
+```ts
+hasNot(key): boolean;
+```
+
+Determine if the given configuration value does not exist.
+
+#### Parameters
+
+##### key
+
+The key or keys to check.
+
+`PropertyKey` | `PropertyKey`[]
+
+#### Returns
+
+`boolean`
+
+True if the key does not exist, false otherwise.
+
+***
+
 ### is()
 
 ```ts
@@ -377,6 +369,36 @@ The value to compare against.
 `boolean`
 
 True if the key's value is equal to the specified value, false otherwise.
+
+***
+
+### isNot()
+
+```ts
+isNot(key, value): boolean;
+```
+
+Check if the given configuration value is not equal to the specified value.
+
+#### Parameters
+
+##### key
+
+`PropertyKey`
+
+The key to check.
+
+##### value
+
+`unknown`
+
+The value to compare against.
+
+#### Returns
+
+`boolean`
+
+True if the key's value is not equal to the specified value, false otherwise.
 
 ***
 
