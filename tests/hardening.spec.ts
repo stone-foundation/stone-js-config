@@ -43,7 +43,7 @@ describe('Config — prototype pollution guard (internal, not dependency-based)'
 describe('Config — immutability of all()', () => {
   it('returns a defensive clone; mutating it does not affect the store', () => {
     const c = Config.create<any>({ nested: { a: 1 } })
-    const snapshot = c.all() as any
+    const snapshot = c.all()
     snapshot.nested.a = 999
     snapshot.added = true
     expect(c.get('nested.a')).toBe(1)
@@ -65,5 +65,74 @@ describe('Config — bracket & dotted path notation', () => {
     expect(c.get('flags[1]')).toBe('b')
     expect(c.get('user.roles[0].name')).toBe('admin')
     expect(c.has('flags[0]')).toBe(true)
+  })
+})
+
+describe('utils — setPath / deepMerge branches', () => {
+  it('setPath reuses an existing intermediate object instead of recreating it', async () => {
+    const { setPath } = await import('../src/utils')
+    const obj: any = { a: { b: 1 } }
+    setPath(obj, 'a.c', 2)
+    expect(obj).toEqual({ a: { b: 1, c: 2 } }) // existing `a` preserved
+  })
+
+  it('setPath creates missing intermediates (undefined, null and non-object)', async () => {
+    const { setPath } = await import('../src/utils')
+    const fresh: any = {}
+    setPath(fresh, 'x.y.z', 1)
+    expect(fresh).toEqual({ x: { y: { z: 1 } } }) // undefined -> created
+
+    const nulled: any = { x: null }
+    setPath(nulled, 'x.y', 2)
+    expect(nulled).toEqual({ x: { y: 2 } }) // null -> replaced
+
+    const scalar: any = { x: 5 }
+    setPath(scalar, 'x.y', 3)
+    expect(scalar).toEqual({ x: { y: 3 } }) // non-object -> replaced
+  })
+
+  it('deepMerge concatenates two arrays', async () => {
+    const { deepMerge } = await import('../src/utils')
+    expect(deepMerge([1, 2], [3, 4])).toEqual([1, 2, 3, 4])
+  })
+
+  it('deepMerge recurses into array-valued keys (concatenating them)', async () => {
+    const { deepMerge } = await import('../src/utils')
+    expect(deepMerge({ tags: ['a'] }, { tags: ['b'] })).toEqual({ tags: ['a', 'b'] })
+  })
+
+  it('cloneValue skips prototype-polluting own keys', async () => {
+    const { cloneValue } = await import('../src/utils')
+    const evil: any = JSON.parse('{"safe":1,"__proto__":{"polluted":true}}')
+    const clone: any = cloneValue(evil)
+    expect(clone.safe).toBe(1)
+    expect(({} as any).polluted).toBeUndefined()
+  })
+
+  it('deepMerge skips prototype-polluting keys from the source', async () => {
+    const { deepMerge } = await import('../src/utils')
+    const evil: any = JSON.parse('{"a":1,"__proto__":{"polluted":true}}')
+    const out: any = deepMerge({ a: 0 }, evil)
+    expect(out.a).toBe(1)
+    expect(({} as any).polluted).toBeUndefined()
+  })
+
+  it('setPath ignores a prototype-polluting final segment', async () => {
+    const { setPath } = await import('../src/utils')
+    const obj: any = {}
+    setPath(obj, 'a.__proto__', { polluted: true })
+    expect(({} as any).polluted).toBeUndefined()
+  })
+
+  it('getPath and hasPath stop at a non-object intermediate', async () => {
+    const { getPath, hasPath } = await import('../src/utils')
+    expect(getPath({ a: 5 }, 'a.b', 'fallback')).toBe('fallback')
+    expect(hasPath({ a: 5 }, 'a.b')).toBe(false)
+  })
+
+  it('deepMerge overwrites (clones) when target/source kinds differ', async () => {
+    const { deepMerge } = await import('../src/utils')
+    // object-vs-scalar and array-vs-scalar both fall back to cloning the source value.
+    expect(deepMerge({ o: { a: 1 }, arr: [1] }, { o: 2, arr: 3 })).toEqual({ o: 2, arr: 3 })
   })
 })
