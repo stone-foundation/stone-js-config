@@ -118,16 +118,20 @@ Get the first match configuration value.
 
 #### Param
 
+**keys**
+
 An array of keys to check.
 
 #### Param
+
+**fallback**
 
 The fallback value if no key matches.
 
 #### Call Signature
 
 ```ts
-firstMatch<TReturn>(keys): undefined | TReturn;
+firstMatch<TReturn>(keys): TReturn | undefined;
 ```
 
 Get the first match configuration value.
@@ -148,7 +152,7 @@ An array of keys to check.
 
 ##### Returns
 
-`undefined` \| `TReturn`
+`TReturn` \| `undefined`
 
 The first matching configuration value.
 
@@ -194,16 +198,20 @@ Get the specified configuration value.
 
 #### Param
 
+**key**
+
 The key or keys to retrieve from the configuration.
 
 #### Param
+
+**fallback**
 
 The fallback value if the key does not exist.
 
 #### Call Signature
 
 ```ts
-get<TReturn>(key): undefined | TReturn;
+get<TReturn>(key): TReturn | undefined;
 ```
 
 Get the specified configuration value.
@@ -224,7 +232,7 @@ The key or keys to retrieve from the configuration.
 
 ##### Returns
 
-`undefined` \| `TReturn`
+`TReturn` \| `undefined`
 
 The configuration value.
 
@@ -282,9 +290,9 @@ Get many configuration values.
 
 ##### keys
 
-The keys to retrieve from the configuration.
+`PropertyKey`[] \| `Record`\<`PropertyKey`, `unknown`\>
 
-`Record`\<`PropertyKey`, `unknown`\> | `PropertyKey`[]
+The keys to retrieve from the configuration.
 
 #### Returns
 
@@ -306,9 +314,9 @@ Determine if the given configuration value exists.
 
 ##### key
 
-The key or keys to check.
+`PropertyKey` \| `PropertyKey`[]
 
-`PropertyKey` | `PropertyKey`[]
+The key or keys to check.
 
 #### Returns
 
@@ -330,9 +338,9 @@ Determine if the given configuration value does not exist.
 
 ##### key
 
-The key or keys to check.
+`PropertyKey` \| `PropertyKey`[]
 
-`PropertyKey` | `PropertyKey`[]
+The key or keys to check.
 
 #### Returns
 
@@ -420,9 +428,12 @@ Set a given configuration value.
 
 ##### key
 
-The key or keys to set in the configuration.
+  \| `PropertyKey`
+  \| `PropertyKey`[]
+  \| `Record`\<`string`, `TValue`\>
+  \| `Record`\<`PropertyKey`, `TValue`\>
 
-`PropertyKey` | `PropertyKey`[] | `Record`\<`string`, `TValue`\> | `Record`\<`PropertyKey`, `TValue`\>
+The key or keys to set in the configuration.
 
 ##### value?
 
@@ -456,9 +467,9 @@ Set a given configuration value if it does not exist.
 
 ##### key
 
-The key or keys to set in the configuration.
+`PropertyKey` \| `PropertyKey`[]
 
-`PropertyKey` | `PropertyKey`[]
+The key or keys to set in the configuration.
 
 ##### value?
 
