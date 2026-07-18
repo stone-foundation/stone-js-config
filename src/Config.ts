@@ -1,6 +1,5 @@
-import deepmerge from 'deepmerge'
 import { Proxiable } from './Proxiable'
-import { get as lodashGet, set as lodashSet, has as lodashHas, isObjectLike } from 'lodash-es'
+import { getPath, setPath, hasPath, deepMerge, cloneValue, isObjectLike } from './utils'
 
 /**
  * Class representing a Config.
@@ -76,7 +75,7 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
    * @returns The configuration value.
    */
   public get<TReturn = unknown>(key: PropertyKey, fallback?: TReturn): TReturn | undefined {
-    return lodashGet(this.items, key, fallback)
+    return getPath<TReturn>(this.items, key, fallback)
   }
 
   /**
@@ -104,8 +103,8 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
    * @returns The first matching configuration value.
    */
   public firstMatch<TReturn = unknown>(keys: PropertyKey[], fallback?: TReturn): TReturn | undefined {
-    const firstKey = keys.find((v) => this.has(v)) ?? []
-    return lodashGet(this.items, firstKey, fallback)
+    const firstKey = keys.find((v) => this.has(v))
+    return firstKey === undefined ? fallback : getPath<TReturn>(this.items, firstKey, fallback)
   }
 
   /**
@@ -117,7 +116,7 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
   public getMany<TReturn = Record<PropertyKey, unknown>>(keys: PropertyKey[] | Record<PropertyKey, unknown>): TReturn {
     const defaults: any = {}
     const entries: Array<[PropertyKey, unknown]> = Array.isArray(keys) ? keys.map((v) => [v, undefined]) : Object.entries(keys)
-    return entries.reduce((results: TReturn, [key, fallback]) => ({ ...results, [key]: lodashGet(this.items, key, fallback) }), defaults)
+    return entries.reduce((results: TReturn, [key, fallback]) => ({ ...results, [key]: getPath(this.items, key, fallback) }), defaults)
   }
 
   /**
@@ -127,7 +126,17 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
    * @returns True if the key exists, false otherwise.
    */
   public has (key: PropertyKey | PropertyKey[]): boolean {
-    return lodashHas(this.items, key)
+    return hasPath(this.items, key)
+  }
+
+  /**
+   * Determine if the given configuration value does not exist.
+   *
+   * @param key - The key or keys to check.
+   * @returns True if the key does not exist, false otherwise.
+   */
+  public hasNot (key: PropertyKey | PropertyKey[]): boolean {
+    return !this.has(key)
   }
 
   /**
@@ -142,6 +151,17 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
   }
 
   /**
+   * Check if the given configuration value is not equal to the specified value.
+   *
+   * @param key - The key to check.
+   * @param value - The value to compare against.
+   * @returns True if the key's value is not equal to the specified value, false otherwise.
+   */
+  public isNot (key: PropertyKey, value: unknown): boolean {
+    return !this.is(key, value)
+  }
+
+  /**
    * Set a given configuration value.
    *
    * @param key - The key or keys to set in the configuration.
@@ -152,14 +172,14 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
     if (!Array.isArray(key) && typeof key === 'object') {
       Object.entries(key).forEach(([name, val]) => {
         const items = this.get(name)
-        if (isObjectLike(items)) {
-          lodashSet(this.items, name, deepmerge(items as Record<PropertyKey, unknown>, val as Record<PropertyKey, unknown>))
+        if (isObjectLike(items) && isObjectLike(val)) {
+          setPath(this.items, name, deepMerge(items, val))
         } else {
-          lodashSet(this.items, name, val)
+          setPath(this.items, name, val)
         }
       })
     } else {
-      lodashSet(this.items, key, value)
+      setPath(this.items, key, value)
     }
 
     return this
@@ -189,7 +209,7 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
     if (Array.isArray(items)) {
       return this.set(key, items.concat(value))
     } else if (isObjectLike(items) && isObjectLike(value)) {
-      return this.set(key, deepmerge(items as Record<PropertyKey, unknown>, value as Record<PropertyKey, unknown>))
+      return this.set(key, deepMerge(items, value))
     }
 
     return this.set(key, value)
@@ -212,7 +232,9 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
    * @returns All configuration items.
    */
   public all (): TObject {
-    return this.items
+    // Return a defensive deep clone (special objects kept by reference) so callers cannot
+    // mutate the internal store directly — the config stays the single source of truth.
+    return cloneValue(this.items)
   }
 
   /**
@@ -230,7 +252,8 @@ export class Config<TObject extends object = Record<PropertyKey, unknown>> exten
    * @returns The current Config instance.
    */
   public clear (): this {
-    this.items = Object.create(null)
+    const empty: any = {}
+    this.items = empty
     return this
   }
 }
