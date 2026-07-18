@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/l/@stone-js/config)](https://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/v/@stone-js/config)](https://www.npmjs.com/package/@stone-js/config)
 [![npm](https://img.shields.io/npm/dm/@stone-js/config)](https://www.npmjs.com/package/@stone-js/config)
-![Maintenance](https://img.shields.io/maintenance/yes/2025)
+![Maintenance](https://img.shields.io/maintenance/yes/2026)
 [![Build Status](https://github.com/stone-foundation/stone-js-config/actions/workflows/main.yml/badge.svg)](https://github.com/stone-foundation/stone-js-config/actions/workflows/main.yml)
 [![Publish Package to npmjs](https://github.com/stone-foundation/stone-js-config/actions/workflows/release.yml/badge.svg)](https://github.com/stone-foundation/stone-js-config/actions/workflows/release.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=stone-foundation_stone-js-config&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=stone-foundation_stone-js-config)
