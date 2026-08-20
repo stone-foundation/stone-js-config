@@ -14,7 +14,7 @@ Mr. Stone <evensstone@gmail.com>
 
 ### TObject
 
-`TObject` *extends* `object` = `Record`\<`PropertyKey`, `unknown`\>
+`TObject` _extends_ `object` = `Record`\<`PropertyKey`, `unknown`\>
 
 ## Constructors
 
@@ -78,7 +78,7 @@ The value to set as default.
 
 The current Config instance.
 
-***
+---
 
 ### all()
 
@@ -94,7 +94,7 @@ Get all of the configuration items as a literal object.
 
 All configuration items.
 
-***
+---
 
 ### clear()
 
@@ -110,7 +110,7 @@ Clear all of the configuration items.
 
 The current Config instance.
 
-***
+---
 
 ### firstMatch()
 
@@ -190,7 +190,7 @@ The fallback value if no key matches.
 
 The first matching configuration value.
 
-***
+---
 
 ### get()
 
@@ -270,7 +270,7 @@ The fallback value if the key does not exist.
 
 The configuration value.
 
-***
+---
 
 ### getMany()
 
@@ -300,7 +300,7 @@ The keys to retrieve from the configuration.
 
 An object containing the requested configuration values.
 
-***
+---
 
 ### has()
 
@@ -324,7 +324,7 @@ The key or keys to check.
 
 True if the key exists, false otherwise.
 
-***
+---
 
 ### hasNot()
 
@@ -348,7 +348,7 @@ The key or keys to check.
 
 True if the key does not exist, false otherwise.
 
-***
+---
 
 ### is()
 
@@ -378,7 +378,7 @@ The value to compare against.
 
 True if the key's value is equal to the specified value, false otherwise.
 
-***
+---
 
 ### isNot()
 
@@ -408,7 +408,7 @@ The value to compare against.
 
 True if the key's value is not equal to the specified value, false otherwise.
 
-***
+---
 
 ### set()
 
@@ -428,10 +428,10 @@ Set a given configuration value.
 
 ##### key
 
-  \| `PropertyKey`
-  \| `PropertyKey`[]
-  \| `Record`\<`string`, `TValue`\>
-  \| `Record`\<`PropertyKey`, `TValue`\>
+\| `PropertyKey`
+\| `PropertyKey`[]
+\| `Record`\<`string`, `TValue`\>
+\| `Record`\<`PropertyKey`, `TValue`\>
 
 The key or keys to set in the configuration.
 
@@ -447,7 +447,7 @@ The value to set.
 
 The current Config instance.
 
-***
+---
 
 ### setIf()
 
@@ -483,7 +483,7 @@ The value to set.
 
 The current Config instance.
 
-***
+---
 
 ### setItems()
 
@@ -507,7 +507,7 @@ The configuration items.
 
 The current Config instance.
 
-***
+---
 
 ### toJson()
 
@@ -523,7 +523,7 @@ Get all of the configuration items as a JSON string.
 
 All configuration items as a JSON string.
 
-***
+---
 
 ### create()
 
@@ -537,7 +537,7 @@ Create a Config.
 
 ##### TObject
 
-`TObject` *extends* `object` = `Record`\<`PropertyKey`, `unknown`\>
+`TObject` _extends_ `object` = `Record`\<`PropertyKey`, `unknown`\>
 
 #### Parameters
 
@@ -553,7 +553,7 @@ Initial configuration items.
 
 A new Config instance.
 
-***
+---
 
 ### fromJson()
 
@@ -567,7 +567,7 @@ Create a Config from a JSON string.
 
 ##### TObject
 
-`TObject` *extends* `object` = `Record`\<`PropertyKey`, `unknown`\>
+`TObject` _extends_ `object` = `Record`\<`PropertyKey`, `unknown`\>
 
 #### Parameters
 
